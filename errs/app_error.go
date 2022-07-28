@@ -25,6 +25,15 @@ func ErrorReadRequestBody() *AppError {
 	}
 }
 
+func NewUnauthenticatedError(message string) *AppError {
+	
+	return &AppError{
+
+		Message: message,
+		Code:    http.StatusUnauthorized,
+	}
+}
+
 func InternalServerError(mess string) *AppError {
 
 	return &AppError{
@@ -85,6 +94,14 @@ func HaveError(errors ...*AppError) (interface{}, *AppError) {
 	return nil, nil
 }
 
+func ErrorData() *AppError {
+
+	return &AppError{
+
+		Message: "Error data",
+		Code: http.StatusInternalServerError,
+	}
+}
 
 func ErrorGetData() *AppError {
 
@@ -136,6 +153,6 @@ func ErrorDataNotSurvive() *AppError {
 	return &AppError{
 
 		Message: "Have no data",
-		Code: http.StatusBadRequest,
+		Code: http.StatusOK,
 	}
 }

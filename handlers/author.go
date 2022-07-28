@@ -24,6 +24,29 @@ func NewAuthorHandler(services services.AuthorServices) AuthorHandler {
 	}
 }
 
+func (a AuthorHandler) Login() gin.HandlerFunc {
+
+	return func(ctx *gin.Context) {
+
+		var author = new(dto.Author)
+		e := ctx.ShouldBindJSON(author)
+		if e != nil {
+
+			WriteError(ctx, errs.ErrorReadRequestBody())
+			return
+		}
+		res, err := a.services.Login(author)
+		if err != nil {
+
+			WriteError(ctx, err)
+			return
+		}
+		WriteRespon(ctx, http.StatusOK, res)
+	}
+}
+
+
+
 func (a AuthorHandler) GetListAuthor() gin.HandlerFunc {
 
 	return func(ctx *gin.Context) {

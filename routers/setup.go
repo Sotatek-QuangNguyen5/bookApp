@@ -13,11 +13,15 @@ func Start() {
 	config.InitDatabase()
 	router := gin.Default()
 	router.Use(middlewares.Cors())
+	router.POST("/token", middlewares.GenerateToken())
 
-	BookRoute(router)
-	AuthorRoute(router)
-	CategoryRoute(router)
-
-	log.Println("Server is running on PORT ", config.PORT)
-	router.Run(config.PORT)
+	Token(router)
+	router.Use(middlewares.VerifyToken())
+	{
+		BookRoute(router)
+		AuthorRoute(router)
+		CategoryRoute(router)
+	}
+	log.Println("Server is running on PORT ", config.GetPort())
+	router.Run(config.GetPort())
 }

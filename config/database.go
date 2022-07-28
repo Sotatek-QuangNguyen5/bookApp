@@ -5,21 +5,27 @@ import (
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
-)
-
-const (
-	host     = "127.0.0.1"
-	port     = 3306
-	user     = "root"
-	password = "123qwerty"
-	dbname   = "bookapp"
+	"github.com/joho/godotenv"
 )
 
 var DB *sql.DB
 
 func getDatabase() *sql.DB {
 
-	mysql := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", user, password, host, port, dbname)
+	envMap, err := godotenv.Read("./.env")
+	if err != nil {
+
+		return nil
+	}
+	var (
+
+		user = envMap["USER"]
+		password = envMap["PASSWORD"]
+		host = envMap["HOST"]
+		port = envMap["PORTDB"]
+		dbname = envMap["DBNAME"]
+	)
+	mysql := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, dbname)
 	
 	db, err := sql.Open("mysql", mysql)
 

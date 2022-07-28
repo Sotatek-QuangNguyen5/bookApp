@@ -3,10 +3,19 @@ package dto
 import "bookApp/models"
 
 type Author struct {
+	
 	Author_id int    `json:"author_id"`
 	Name      string `json:"name"`
 	Phone     string `json:"phone"`
 	Email     string `json:"email"`
+	Password  string `json:"password"`
+}
+
+type Authentication struct {
+
+	AccessToken	string `json:"accessToken"`
+	RefreshToken string `json:"refreshToken"`
+	Message		string `json:"message"`
 }
 
 func AuthorModelToAuthorDto(authorModel *models.Author) *Author {
@@ -46,6 +55,7 @@ func AuthorDtoToAuthorModel(authorDto *Author) *models.Author {
 		Name: authorDto.Name,
 		Email: authorDto.Email,
 		Phone: authorDto.Phone,
+		Password: authorDto.Password,
 	}
 }
 

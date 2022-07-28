@@ -7,6 +7,8 @@ import (
 	"bookApp/services"
 	"net/http"
 	"github.com/gin-gonic/gin"
+	"fmt"
+	"runtime"
 )
 
 type BookHandler struct {
@@ -35,6 +37,7 @@ func (b BookHandler) GetListBook() gin.HandlerFunc {
 		}
 
 		WriteRespon(ctx, http.StatusOK, res)
+		fmt.Println("So luong dang chay : ", runtime.NumGoroutine())
 	}
 }
 

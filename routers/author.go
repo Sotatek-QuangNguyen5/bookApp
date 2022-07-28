@@ -17,7 +17,6 @@ func AuthorRoute(router *gin.Engine) {
 		r.GET("/", h.GetListAuthor())
 		r.DELETE("/", h.DeleteAuthor())
 		r.PUT("/", h.UpdateAuthor())
-		r.POST("/", h.CreateAuthor())
 		r.GET("/detail", h.GetByIdAuthor())
 		r.GET("/getbybookid", h.GetByBookId())
 	}

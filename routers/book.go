@@ -11,7 +11,6 @@ import (
 
 func BookRoute(router *gin.Engine) {
 
-
 	h := handlers.NewBookHandler(services.NewBookServices(repository.NewBookRepository(config.DB)))
 	r := router.Group("/book")
 	{
