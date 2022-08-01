@@ -119,7 +119,9 @@ func (c CategoryHander) GetByBookId() gin.HandlerFunc {
 			WriteError(ctx, errs.ErrorReadRequestBody())
 			return
 		}
-		res, err := c.categoryServices.GetByBookId(book)
+		
+		author_id := ctx.MustGet("author_id")
+		res, err := c.categoryServices.GetByBookId(book, author_id.(int))
 		if err != nil {
 
 			WriteError(ctx, err)

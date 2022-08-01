@@ -14,7 +14,7 @@ type CategoryServices interface {
 	UpdateCategory(*dto.Category) (*errs.AppError)
 	DeleteCategory(*dto.Category) (*errs.AppError)
 	GetByIdCategory(*dto.Category) (*dto.Category, *errs.AppError)
-	GetByBookId(*dto.Book) ([]*dto.Category, *errs.AppError)
+	GetByBookId(*dto.Book, int) ([]*dto.Category, *errs.AppError)
 }
 
 type DefaultCategoryServices struct {
@@ -82,7 +82,7 @@ func (c DefaultCategoryServices) GetByIdCategory(category *dto.Category) (*dto.C
 	return categoryDto, nil
 }
 
-func (c DefaultCategoryServices) GetByBookId(book *dto.Book) ([]*dto.Category, *errs.AppError) {
+func (c DefaultCategoryServices) GetByBookId(book *dto.Book, author_id int) ([]*dto.Category, *errs.AppError) {
 
 	e := dto.CheckID(book.Book_id)
 	if e != nil {
@@ -90,7 +90,7 @@ func (c DefaultCategoryServices) GetByBookId(book *dto.Book) ([]*dto.Category, *
 		return nil, e
 	}
 	b := NewBookServices(repository.NewBookRepository(config.DB))
-	res, err := b.GetByIdBook(book)
+	res, err := b.GetByIdBook(book, author_id)
 	if err != nil {
 
 		return nil, err

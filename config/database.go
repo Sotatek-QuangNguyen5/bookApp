@@ -31,8 +31,7 @@ func getDatabase() *sql.DB {
 
 	if err != nil {
 
-		fmt.Println(err)
-		return nil
+		panic("Error connect to database!!!")
 	}
 	return db
 }

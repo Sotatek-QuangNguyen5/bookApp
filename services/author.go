@@ -17,7 +17,7 @@ type AuthorServices interface {
 	UpdateAuthor(*dto.Author) (*errs.AppError)
 	CreateAuthor(*dto.Author) (*errs.AppError)
 	GetByIdAuthor(*dto.Author) (*dto.Author, *errs.AppError)
-	GetByBookId(*dto.Book) ([]*dto.Author, *errs.AppError)
+	GetByBookId(*dto.Book, int) ([]*dto.Author, *errs.AppError)
 }
 
 type DefaultAuthorServices struct {
@@ -204,7 +204,7 @@ func (a DefaultAuthorServices) GetByIdAuthor(author *dto.Author) (*dto.Author, *
 	return authorDto, nil
 }
 
-func (a DefaultAuthorServices) GetByBookId(book *dto.Book) ([]*dto.Author, *errs.AppError) {
+func (a DefaultAuthorServices) GetByBookId(book *dto.Book, author_id int) ([]*dto.Author, *errs.AppError) {
 
 	e := dto.CheckID(book.Book_id)
 	if e != nil {
@@ -212,7 +212,7 @@ func (a DefaultAuthorServices) GetByBookId(book *dto.Book) ([]*dto.Author, *errs
 		return nil, e
 	}
 	b := NewBookServices(repository.NewBookRepository(config.DB))
-	res, err := b.GetByIdBook(book)
+	res, err := b.GetByIdBook(book, author_id)
 	if err != nil {
 
 		return nil, err

@@ -8,11 +8,12 @@ import (
 )
 
 type BookRepository interface {
-	List() ([]*models.Book, *errs.AppError)
+
+	List(int) ([]*models.Book, *errs.AppError)
 	Create(*models.Book) *errs.AppError
-	Delete(int) *errs.AppError
-	Update(*models.Book) *errs.AppError
-	GetById(int) (*models.Book, *errs.AppError)
+	Delete(int, int) *errs.AppError
+	Update(*models.Book, int) *errs.AppError
+	GetById(int, int) (*models.Book, *errs.AppError)
 	Filter(string, int, int) ([]*models.Book, *errs.AppError)
 	AddCategory(int, int) *errs.AppError
 	DeleteCategory(int, int) *errs.AppError
@@ -31,9 +32,10 @@ func NewBookRepository(db *sql.DB) BookRepository {
 	}
 }
 
-func (b DefaultBookRepository) List() ([]*models.Book, *errs.AppError) {
+func (b DefaultBookRepository) List(author_id int) ([]*models.Book, *errs.AppError) {
 
-	res, err := b.db.Query("SELECT * FROM book")
+	query := fmt.Sprintf("SELECT b.* FROM book b, book_author ba WHERE b.book_id = ba.book_id AND ba.author_id = %d", author_id)
+	res, err := b.db.Query(query)
 	if err != nil {
 
 		return nil, errs.ErrorGetData()
@@ -72,7 +74,10 @@ func (b DefaultBookRepository) List() ([]*models.Book, *errs.AppError) {
 
 		books = append(books, book)
 	}
+	if len(books) == 0 {
 
+		return nil, errs.ErrorDataNotSurvive()
+	}
 	return books, nil
 }
 
@@ -89,8 +94,13 @@ func (b DefaultBookRepository) Create(newbook *models.Book) *errs.AppError {
 	return nil
 }
 
-func (b DefaultBookRepository) Update(book *models.Book) *errs.AppError {
+func (b DefaultBookRepository) Update(book *models.Book, author_id int) *errs.AppError {
 
+	_, e := b.GetById(book.Book_id, author_id)
+	if e != nil {
+
+		return e
+	}
 	query := fmt.Sprintf("UPDATE book SET name = '%s', description = '%s' WHERE book_id = %d", book.Name, book.Description, book.Book_id)
 	_, err := b.db.Query(query)
 
@@ -102,8 +112,13 @@ func (b DefaultBookRepository) Update(book *models.Book) *errs.AppError {
 	return nil
 }
 
-func (b DefaultBookRepository) Delete(book_id int) *errs.AppError {
+func (b DefaultBookRepository) Delete(book_id, author_id int) *errs.AppError {
 
+	_, e := b.GetById(book_id, author_id)
+	if e != nil {
+
+		return e
+	}
 	query := fmt.Sprintf("DELETE FROM book_author WHERE book_id = %d", book_id)
 	_, err := b.db.Query(query)
 
@@ -131,7 +146,7 @@ func (b DefaultBookRepository) Delete(book_id int) *errs.AppError {
 	return nil
 }
 
-func (b DefaultBookRepository) GetById(book_id int) (*models.Book, *errs.AppError) {
+func (b DefaultBookRepository) GetById(book_id, author_id int) (*models.Book, *errs.AppError) {
 
 	query := fmt.Sprintf("SELECT * FROM book WHERE book_id = %d", book_id)
 	res, err := b.db.Query(query)
@@ -170,8 +185,25 @@ func (b DefaultBookRepository) GetById(book_id int) (*models.Book, *errs.AppErro
 			Authors:     authors,
 			Categories:  categories,
 		}
+		checkAuthor := false
+		for _, authorid := range book.Authors {
+
+			if authorid.Author_id == author_id {
+
+				checkAuthor = true
+				break
+			}
+		}
+		if !checkAuthor {
+
+			return nil, errs.BadRequestError("Not Authorization!!!")
+		}
 	}
 
+	if book == nil {
+
+		return nil, errs.ErrorDataNotSurvive()
+	}
 	return book, nil
 }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 14, 2022 lúc 09:12 AM
+-- Thời gian đã tạo: Th8 01, 2022 lúc 05:02 AM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 8.1.1
 
@@ -31,17 +31,26 @@ CREATE TABLE `author` (
   `author_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL
+  `phone` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `author`
 --
 
-INSERT INTO `author` (`author_id`, `name`, `email`, `phone`) VALUES
-(11, 'a', 'a', 'a'),
-(12, 'oke', 'zzz', '3428'),
-(13, 'ppppp', '', '');
+INSERT INTO `author` (`author_id`, `name`, `email`, `phone`, `password`) VALUES
+(11, 'a', 'a@gmail.com', '1234567890', '$2a$10$EGWSPltnBTNPCoRp0XyzA.P4RTZov8ocx1wAs0ElSxB6p9evolapy'),
+(12, 'oke', 'zzz@gmail.com', '9876543210', '$2a$04$mmKUP66mbxRTHzFFyPqTO.X/7zdvORcXDBIVS/cZOwPFTPR5NHgtK'),
+(13, 'ppppp', 'r@gmail.com', '', '$2a$04$mmKUP66mbxRTHzFFyPqTO.X/7zdvORcXDBIVS/cZOwPFTPR5NHgtK'),
+(15, 'quang', 'b@gmail.com', '', '$2a$04$mmKUP66mbxRTHzFFyPqTO.X/7zdvORcXDBIVS/cZOwPFTPR5NHgtK'),
+(16, 'quang', 'quang.nguyen@sotatek.com', '', '$2a$04$mmKUP66mbxRTHzFFyPqTO.X/7zdvORcXDBIVS/cZOwPFTPR5NHgtK'),
+(18, 'quang', 'quangnguyen@sotatek.com', '', '$2a$10$0plDZb5r0TkBh8mLzcYZtexP3yModCJsAxaJFqXsHx17pNHVAjzXW'),
+(19, 'quangnn2k1', 'qc@sotatek.com', '01234567898', '$2a$10$ii2inQw70IelwMllz8MzlucCFAnQO6vlbibh.Xz6g4i8aviWTfjmG'),
+(20, 'quang', 'q@sotatek.com', '0123456789', '$2a$10$mmR2yFja6DLOrW8YV4FZgePF4pDcZJ6JQ7/McmNbNR1oHHqHrJXw2'),
+(21, 'quang', 'qq@sotatek.com', '01234567899', '$2a$10$1.25sgwQgnn17IMkAni4cOIYDH9bH9QME6WYTNse.hw0pScfmvN2u'),
+(22, 'quangnn', 'quang2k1@sotatek.com', '01234567891', '$2a$10$qg3LJx8hkjdTdgyjd7CODOyRxypBj./J6mekoM6/1l.q3FLD.vQcq'),
+(23, 'quangnn', 'quang2k@sotatek.com', '01234567892', '$2a$10$EGWSPltnBTNPCoRp0XyzA.P4RTZov8ocx1wAs0ElSxB6p9evolapy');
 
 -- --------------------------------------------------------
 
@@ -71,7 +80,8 @@ INSERT INTO `book` (`book_id`, `name`, `description`) VALUES
 (29, 'hoan', 'hhhhh'),
 (30, 'oke', 'zzz'),
 (31, 'zk', '<3'),
-(32, 'here', '');
+(32, 'here', ''),
+(33, 'jjjjjjjjjjjjjj', '');
 
 -- --------------------------------------------------------
 
@@ -188,13 +198,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT cho bảng `author`
 --
 ALTER TABLE `author`
-  MODIFY `author_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `author_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `book`
 --
 ALTER TABLE `book`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT cho bảng `category`

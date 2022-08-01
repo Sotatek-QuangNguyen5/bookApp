@@ -10,7 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
 func Token(router *gin.Engine) {
 
 	handlerAuthor := handlers.NewAuthorHandler(services.NewAuthorServices(repository.NewAuthorRepository(config.DB)))

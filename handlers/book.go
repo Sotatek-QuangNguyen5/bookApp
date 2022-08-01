@@ -7,8 +7,6 @@ import (
 	"bookApp/services"
 	"net/http"
 	"github.com/gin-gonic/gin"
-	"fmt"
-	"runtime"
 )
 
 type BookHandler struct {
@@ -28,7 +26,8 @@ func (b BookHandler) GetListBook() gin.HandlerFunc {
 
 	return func(ctx *gin.Context) {
 
-		res, err := b.bookServices.ListBook()
+		author_id := ctx.MustGet("author_id")
+		res, err := b.bookServices.ListBook(author_id.(int))
 
 		if err != nil {
 
@@ -37,7 +36,6 @@ func (b BookHandler) GetListBook() gin.HandlerFunc {
 		}
 
 		WriteRespon(ctx, http.StatusOK, res)
-		fmt.Println("So luong dang chay : ", runtime.NumGoroutine())
 	}
 }
 
@@ -53,7 +51,8 @@ func (b BookHandler) DeleteBook() gin.HandlerFunc {
 			return
 		}
 
-		e := b.bookServices.DeleteBook(book)
+		author_id := ctx.MustGet("author_id")
+		e := b.bookServices.DeleteBook(book, author_id.(int))
 		if e != nil {
 
 			WriteError(ctx, e)
@@ -101,7 +100,8 @@ func (b BookHandler) UpdateBook() gin.HandlerFunc {
 			return
 		}
 
-		err := b.bookServices.UpdateBook(book)
+		author_id := ctx.MustGet("author_id")
+		err := b.bookServices.UpdateBook(book, author_id.(int))
 
 		if err != nil {
 
@@ -124,7 +124,9 @@ func (b BookHandler) GetByIdBook() gin.HandlerFunc {
 			WriteError(ctx, errs.ErrorReadRequestBody())
 			return
 		}
-		res, err := b.bookServices.GetByIdBook(book)
+
+		author_id := ctx.MustGet("author_id")
+		res, err := b.bookServices.GetByIdBook(book, author_id.(int))
 		if err != nil {
 
 			WriteError(ctx, err)

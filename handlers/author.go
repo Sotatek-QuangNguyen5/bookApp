@@ -157,7 +157,8 @@ func (a AuthorHandler) GetByBookId() gin.HandlerFunc {
 			WriteError(ctx, errs.ErrorReadRequestBody())
 			return
 		}
-		res, err := a.services.GetByBookId(book)
+		author_id := ctx.MustGet("author_id")
+		res, err := a.services.GetByBookId(book, author_id.(int))
 		if err != nil {
 
 			WriteError(ctx, err)

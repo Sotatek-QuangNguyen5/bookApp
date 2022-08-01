@@ -9,11 +9,11 @@ import (
 
 type BookServices interface {
 
-	ListBook() ([]*dto.Book, *errs.AppError)
-	DeleteBook(*dto.Book) (*errs.AppError)
+	ListBook(int) ([]*dto.Book, *errs.AppError)
+	DeleteBook(*dto.Book, int) (*errs.AppError)
 	CreateBook(*dto.Book) (*errs.AppError)
-	UpdateBook(*dto.Book) (*errs.AppError)
-	GetByIdBook(*dto.Book) (*dto.Book, *errs.AppError)
+	UpdateBook(*dto.Book, int) (*errs.AppError)
+	GetByIdBook(*dto.Book, int) (*dto.Book, *errs.AppError)
 	FilterBook(*dto.FilterBook) ([]*dto.Book, *errs.AppError)
 	AddCategory(*dto.BookCategory) (*errs.AppError)
 	AddAuthor(*dto.BookAuthor) (*errs.AppError)
@@ -35,9 +35,9 @@ func NewBookServices(repo repository.BookRepository) BookServices {
 	}
 }
 
-func (b DefaultBookServices) ListBook() ([]*dto.Book, *errs.AppError) {
+func (b DefaultBookServices) ListBook(author_id int) ([]*dto.Book, *errs.AppError) {
 
-	books, err := b.repo.List()
+	books, err := b.repo.List(author_id)
 	if err != nil {
 
 		return nil, err
@@ -47,14 +47,14 @@ func (b DefaultBookServices) ListBook() ([]*dto.Book, *errs.AppError) {
 	return dtoBooks, nil
 }
 
-func (b DefaultBookServices) DeleteBook(book *dto.Book) (*errs.AppError) {
+func (b DefaultBookServices) DeleteBook(book *dto.Book, author_id int) (*errs.AppError) {
 
 	err := dto.CheckID(book.Book_id)
 	if err != nil {
 
 		return err
 	}
-	return b.repo.Delete(book.Book_id)
+	return b.repo.Delete(book.Book_id, author_id)
 }
 
 func (b DefaultBookServices) CreateBook(book *dto.Book) (*errs.AppError) {
@@ -62,24 +62,24 @@ func (b DefaultBookServices) CreateBook(book *dto.Book) (*errs.AppError) {
 	return b.repo.Create(dto.BookDtoToBookModel(book))
 }
 
-func (b DefaultBookServices) UpdateBook(book *dto.Book) (*errs.AppError) {
+func (b DefaultBookServices) UpdateBook(book *dto.Book, author_id int) (*errs.AppError) {
 
 	err := dto.CheckID(book.Book_id)
 	if err != nil {
 
 		return err
 	}
-	return b.repo.Update(dto.BookDtoToBookModel(book))
+	return b.repo.Update(dto.BookDtoToBookModel(book), author_id)
 }
 
-func (b DefaultBookServices) GetByIdBook(book *dto.Book) (*dto.Book, *errs.AppError) {
+func (b DefaultBookServices) GetByIdBook(book *dto.Book, author_id int) (*dto.Book, *errs.AppError) {
 
 	e := dto.CheckID(book.Book_id)
 	if e != nil {
 
 		return nil, e
 	}
-	res, err := b.repo.GetById(book.Book_id)
+	res, err := b.repo.GetById(book.Book_id, author_id)
 	if err != nil {
 
 		return nil, err

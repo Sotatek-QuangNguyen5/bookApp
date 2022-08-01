@@ -45,6 +45,7 @@ func VerifyToken() gin.HandlerFunc {
 			handlers.WriteError(ctx, err)
 			return
 		}
+		ctx.Set("author_id", author.Author_id)
 		ctx.Next()
 	}
 }
