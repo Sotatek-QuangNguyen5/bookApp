@@ -21,6 +21,7 @@ func Start() {
 		BookRoute(router)
 		AuthorRoute(router)
 		CategoryRoute(router)
+		ConversationRoute(router)
 	}
 	log.Println("Server is running on PORT ", config.GetPort())
 	router.Run(config.GetPort())

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th8 01, 2022 lúc 05:02 AM
+-- Thời gian đã tạo: Th8 14, 2022 lúc 09:44 AM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 8.1.1
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `bookapp`
+-- Cơ sở dữ liệu: `bookapp2`
 --
 
 -- --------------------------------------------------------
@@ -43,13 +43,13 @@ INSERT INTO `author` (`author_id`, `name`, `email`, `phone`, `password`) VALUES
 (11, 'a', 'a@gmail.com', '1234567890', '$2a$10$EGWSPltnBTNPCoRp0XyzA.P4RTZov8ocx1wAs0ElSxB6p9evolapy'),
 (12, 'oke', 'zzz@gmail.com', '9876543210', '$2a$04$mmKUP66mbxRTHzFFyPqTO.X/7zdvORcXDBIVS/cZOwPFTPR5NHgtK'),
 (13, 'ppppp', 'r@gmail.com', '', '$2a$04$mmKUP66mbxRTHzFFyPqTO.X/7zdvORcXDBIVS/cZOwPFTPR5NHgtK'),
-(15, 'quang', 'b@gmail.com', '', '$2a$04$mmKUP66mbxRTHzFFyPqTO.X/7zdvORcXDBIVS/cZOwPFTPR5NHgtK'),
-(16, 'quang', 'quang.nguyen@sotatek.com', '', '$2a$04$mmKUP66mbxRTHzFFyPqTO.X/7zdvORcXDBIVS/cZOwPFTPR5NHgtK'),
-(18, 'quang', 'quangnguyen@sotatek.com', '', '$2a$10$0plDZb5r0TkBh8mLzcYZtexP3yModCJsAxaJFqXsHx17pNHVAjzXW'),
+(15, 'quang1', 'b@gmail.com', '', '$2a$04$mmKUP66mbxRTHzFFyPqTO.X/7zdvORcXDBIVS/cZOwPFTPR5NHgtK'),
+(16, 'quang2', 'quang.nguyen@sotatek.com', '', '$2a$04$mmKUP66mbxRTHzFFyPqTO.X/7zdvORcXDBIVS/cZOwPFTPR5NHgtK'),
+(18, 'quang3', 'quangnguyen@sotatek.com', '', '$2a$10$0plDZb5r0TkBh8mLzcYZtexP3yModCJsAxaJFqXsHx17pNHVAjzXW'),
 (19, 'quangnn2k1', 'qc@sotatek.com', '01234567898', '$2a$10$ii2inQw70IelwMllz8MzlucCFAnQO6vlbibh.Xz6g4i8aviWTfjmG'),
-(20, 'quang', 'q@sotatek.com', '0123456789', '$2a$10$mmR2yFja6DLOrW8YV4FZgePF4pDcZJ6JQ7/McmNbNR1oHHqHrJXw2'),
-(21, 'quang', 'qq@sotatek.com', '01234567899', '$2a$10$1.25sgwQgnn17IMkAni4cOIYDH9bH9QME6WYTNse.hw0pScfmvN2u'),
-(22, 'quangnn', 'quang2k1@sotatek.com', '01234567891', '$2a$10$qg3LJx8hkjdTdgyjd7CODOyRxypBj./J6mekoM6/1l.q3FLD.vQcq'),
+(20, 'quang4', 'q@sotatek.com', '0123456789', '$2a$10$mmR2yFja6DLOrW8YV4FZgePF4pDcZJ6JQ7/McmNbNR1oHHqHrJXw2'),
+(21, 'quang5', 'qq@sotatek.com', '01234567899', '$2a$10$1.25sgwQgnn17IMkAni4cOIYDH9bH9QME6WYTNse.hw0pScfmvN2u'),
+(22, 'quangnn6', 'quang2k1@sotatek.com', '01234567891', '$2a$10$qg3LJx8hkjdTdgyjd7CODOyRxypBj./J6mekoM6/1l.q3FLD.vQcq'),
 (23, 'quangnn', 'quang2k@sotatek.com', '01234567892', '$2a$10$EGWSPltnBTNPCoRp0XyzA.P4RTZov8ocx1wAs0ElSxB6p9evolapy');
 
 -- --------------------------------------------------------
@@ -154,6 +154,47 @@ INSERT INTO `category` (`category_id`, `name`, `description`) VALUES
 (3, 'zzzzzzz', ''),
 (4, 'llllll', '');
 
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `conversation`
+--
+
+CREATE TABLE `conversation` (
+  `conversation_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `isPrivate` tinyint(1) NOT NULL,
+  `last_update` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `conversation_author`
+--
+
+CREATE TABLE `conversation_author` (
+  `conversation_id` int(11) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `isCreator` tinyint(1) NOT NULL,
+  `last_update` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `messages`
+--
+
+CREATE TABLE `messages` (
+  `message_id` int(11) NOT NULL,
+  `conversation_id` int(11) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `file` text NOT NULL,
+  `last_update` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Chỉ mục cho các bảng đã đổ
 --
@@ -191,6 +232,26 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`category_id`);
 
 --
+-- Chỉ mục cho bảng `conversation`
+--
+ALTER TABLE `conversation`
+  ADD PRIMARY KEY (`conversation_id`);
+
+--
+-- Chỉ mục cho bảng `conversation_author`
+--
+ALTER TABLE `conversation_author`
+  ADD KEY `author_id` (`author_id`),
+  ADD KEY `conversation_id` (`conversation_id`);
+
+--
+-- Chỉ mục cho bảng `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`message_id`),
+  ADD KEY `conversation_id` (`conversation_id`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
@@ -213,6 +274,18 @@ ALTER TABLE `category`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT cho bảng `conversation`
+--
+ALTER TABLE `conversation`
+  MODIFY `conversation_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Các ràng buộc cho các bảng đã đổ
 --
 
@@ -229,6 +302,20 @@ ALTER TABLE `book_author`
 ALTER TABLE `book_category`
   ADD CONSTRAINT `book_category_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`),
   ADD CONSTRAINT `book_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`);
+
+--
+-- Các ràng buộc cho bảng `conversation_author`
+--
+ALTER TABLE `conversation_author`
+  ADD CONSTRAINT `conversation_author_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `author` (`author_id`),
+  ADD CONSTRAINT `conversation_author_ibfk_3` FOREIGN KEY (`conversation_id`) REFERENCES `conversation` (`conversation_id`);
+
+--
+-- Các ràng buộc cho bảng `messages`
+--
+ALTER TABLE `messages`
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`conversation_id`) REFERENCES `conversation` (`conversation_id`),
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`conversation_id`) REFERENCES `conversation` (`conversation_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

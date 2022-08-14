@@ -3,6 +3,7 @@ package errs
 import "net/http"
 
 type AppError struct {
+	
 	Message string `json:"message"`
 	Code    int    `json:"status"`
 }
